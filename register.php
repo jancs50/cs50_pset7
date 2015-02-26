@@ -1,3 +1,4 @@
+
 <?php
 
     // configuration
@@ -32,22 +33,24 @@
         {
             apologize("Passwords do not match.");
         }
-    }
-  
-    // if checks sanity are ok, proceed with insertion 
-    if (query("INSERT INTO users (username, hash, cash) VALUES(?, ?, 10000.00)", $_POST["username"], crypt($_POST["password"])) === false)
-    {
-        apologize("Username not available");
-    }
-    else
-    {
-        // get user id
-        $rows = query("SELECT LAST_INSERT_ID() AS id");
-        $id = $rows[0]["id"];
-
-        // remember that user's now logged in by storing user's ID in session
-        $_SESSION["id"] = $row["id"];
-
-        redirect("/");
+        else
+        {
+            // if checks sanity are ok, proceed with insertion 
+            if (query("INSERT INTO users (username, hash, cash) VALUES(?, ?, 10000.00)", $_POST["username"], crypt($_POST["password"])) === false)
+            {
+                apologize("Username not available");
+            }
+            else
+            {
+                // get user id
+                $rows = query("SELECT LAST_INSERT_ID() AS id");
+                $id = $rows[0]["id"];
+        
+                // remember that user's now logged in by storing user's ID in session
+                $_SESSION["id"] = $row["id"];
+    
+                redirect("/");
+            }
+        }
     }
 ?>
